@@ -104,4 +104,4 @@ async def on_command_error(error, ctx):
 
 if __name__ == "__main__":
     # This MUST be the final function call that runs
-    bot.run(credentials.get_creds('token'))
+    bot.run(credentials.get_creds('aSpGEr1xSu7juwkZX5THPs362pahTl9d'))

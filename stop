@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#kill process with previous wednesday-bot
-pid=$(ps -x | pgrep -f "[w]ednesday.py")
+#kill process with previous brandon-bot
+pid=$(ps -x | pgrep -f "[b]randon.py")
 if [ -z ${pid} ]; then
-    echo "wednesday-bot was not running"
+    echo "brandon-bot was not running"
 else
-    echo "sleep, wednesday-bot"
+    echo "sleep, brandon-bot"
     echo "ending process with pid: ${pid}"
     kill ${pid}
 fi

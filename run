@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Move wednesday.log if it exists
+# Move brandon.log if it exists
 date=$(date +"%Y%m%d%H%M")
-if [ -f logs/wednesday.log ]; then
-    mv logs/wednesday.log logs/old/wednesday_${date}.log
+if [ -f logs/brandon.log ]; then
+    mv logs/brandon.log logs/old/brandon${date}.log
 fi
 
-touch logs/wednesday.log
+touch logs/brandon.log
 
-# Run wednesday-bot in background.
+# Run brandon-bot in background.
 # Redirect error output to /logs/wb_error.log
-nohup python3 -u wednesday.py >> logs/wednesday.log 2>&1&
+nohup python3 -u brandon.py >> logs/brandon.log 2>&1&
 sleep 1
 echo '
 '
