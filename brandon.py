@@ -10,11 +10,8 @@ from datetime import datetime
 
 
 import credentials  # Make your own credentials file
-from persistence import persistence
 from util import util
 from util import content_mapping as cm
-from jeopardy import Jeopardy
-from util import russian_roulette as rr
 
 description = """A man so great we had to somehow imitate his life."""
 
@@ -31,7 +28,6 @@ handler.setFormatter(logging.Formatter('[brandon] %(levelname)s %(asctime)s:%(na
 # Add file handler to loggers
 logger.addHandler(handler)
 loggerd.addHandler(handler)
-persistence.prs_logger.addHandler(handler)
 util.util_logger.addHandler(handler)
 
 # Set up bot with ? command prefix
@@ -62,90 +58,24 @@ async def on_ready():
     logger.info('-+-+-+-+-+-+-')
 
 
+"""
+
 @bot.command(pass_context=True)
 async def day(ctx):
-    """
-    Prints a helpful, friendly message to let you know which day of the week it is.
-    Also provides a helpful visual, in case you are still confused.
-    """
+
+    #Prints a helpful, friendly message to let you know which day of the week it is.
+    #Also provides a helpful visual, in case you are still confused.
+
     channel = ctx.message.channel
     today = datetime.today().weekday()
     await bot.say(util.my_dudes(today))
     await bot.send_file(channel, util.image(today))
-
-
-@bot.command(pass_context=True)
-async def meme(ctx, top_text: str, bottom_text: str, image_url: str):
-    """
-    Generates a meme of variable dankness. Dankness depends on your inputs for top text, botton text
-    and background image url, all three of which must be surrounded in quotes.
-
-    :param top_text: Required: must be surrounded in quotes
-    :param bottom_text: Required: must be surrounded in quotes
-    :param image_url: Required: must be surrounded in quotes
-    """
-    logger.info(str(ctx.message.author) + " requested : " + top_text + " " + bottom_text + " " + image_url)
-    if not util.url_is_valid(image_url):
-        await bot.send_message(ctx.message.channel,
-                               "You accidentally entered too many arguments. Or maybe even did it on purpose..."
-                               "```?meme \"top text goes in quotes\" \"same with bottom\" paste.url.verbatim```"
-                               "```A url must begin with http. Text must be in quotes.```"
-                               "If you think you got this message in error, I'm sorry to hear that")
-        return
-    mention = '<@' + ctx.message.author.id + '>'
-    channel = ctx.message.channel
-    top_text = util.prepare_for_memegen(top_text)
-    bottom_text = util.prepare_for_memegen(bottom_text)
-
-    base_url = "https://memegen.link/custom/"
-    image_url = "?alt=" + image_url
-
-    final_url = base_url + top_text + "/" + bottom_text + ".jpg" + image_url
-    o = requests.head(final_url)  # Make the website generate the image
-    logger.info(final_url + " responded : " + str(o))
-    await bot.send_message(channel, mention + " " + final_url)
-
-
-@bot.command(pass_context=True)
-async def jeopardy(ctx):
-    """
-    WIP: Get a jeopardy question from WB. Answer correctly to earn REAL WEDNESDAY-BUCKS!
-    """
-    if Jeopardy.active:
-        bot.send_message(ctx.message.channel, "You are already playing jeopardy")
-        return
-    await bot.send_message(ctx.message.channel, Jeopardy.get_random_question())
-    time = 0
-    while Jeopardy.active:
-        if time >= 15:
-            await bot.send_message(ctx.message.channel, "The answer was: " + Jeopardy.curr.answer)
-            Jeopardy.active = False
-        time += 1
-        await asyncio.sleep(1)
-
-
-@bot.command(pass_context=True)
-async def russian_roulette(ctx):
-    # load the gun
-    if not rr.is_loaded():
-        rr.load()
-    # take your shot
-    dead = rr.pull_trigger()
-    mention = '<@' + ctx.message.author.id + '>'
-    if dead:
-        await bot.send_message(ctx.message.channel, mention + " ---> You died. Good riddance...")
-    else:
-        await bot.send_message(ctx.message.channel, mention + " ---> Unfortunately, you survived. Who's next?")
-
+    
+"""
 
 @bot.event
 async def on_message(message):
     if not message.author.id == bot.user.id:  # don't reply to your own messages
-        if Jeopardy.active:
-            if re.match('(what|who)\s+(is|was|are|were).*', message.content.lower()):
-                result = re.sub('^(what|who)\s+(is|was|are|were)\s+', '', message.content.lower())  # just send response
-                result = Jeopardy.response(result)
-                await bot.send_message(message.channel, str('<@' + message.author.id + '>') + " ---> " + result[1])
         if message.channel.is_private:
             if not persistence.is_dude(message.author.id):
                 await bot.send_message(message.channel, 'Hey there. Slidin in the DMs are we?')
@@ -173,11 +103,5 @@ async def on_command_error(error, ctx):
 
 
 if __name__ == "__main__":
-    # If script is starting, we need to load dudes
-    persistence.load_dudes()
-
-    # Begin background loop
-    bot.loop.create_task(wednesday_reminder())
-
     # This MUST be the final function call that runs
     bot.run(credentials.get_creds('token'))
