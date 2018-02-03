@@ -17,23 +17,18 @@ If you want to add something, make sure you add it to the correct mapping:
 We can probably consolidate those two functions at one point....
 """
 listen_mappings = {
-    'lol': ['', '🍭', False],
     'shit': ['', '💩', False],
     'stop': ['', '', False],
     'lmao': ['', '😂', False],
     'cool': ['', '😎', False],
-    'wednesday': ['', '🐸', False],
-    'please': ['pls', '🙏', False]
 }
 
 mention_mappings = {
-    'repo': ['Check me out: https://github.com/mikecrinite/wednesday-bot', '', True],
-    'fuck you': ['I\'m sorry you feel that way, my guy', '😢', True],
-    'diabetes': ['Thankfully, frogs don\'t get diabetes.', '', False],
-    'bonzi': ['#fuckbonzi', '🅱', False]
+    'repo': ['https://github.com/MatthewGimbut/brandon-bot', '', True],
+    ## 'fuck you': ['I\'m sorry you feel that way, my guy', '😢', True],
 }
 
-cm_logger = logging.getLogger('wednesday.content_mapping')
+cm_logger = logging.getLogger('brandon.content_mapping')
 cm_logger.setLevel(logging.INFO)
 
 
