@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Move wednesday.log if it exists
+date=$(date +"%Y%m%d%H%M")
+if [ -f logs/wednesday.log ]; then
+    mv logs/wednesday.log logs/old/wednesday_${date}.log
+fi
+
+touch logs/wednesday.log
+
+# Run wednesday-bot in background.
+# Redirect error output to /logs/wb_error.log
+nohup python3 -u wednesday.py >> logs/wednesday.log 2>&1&
+sleep 1
+echo '
+'
+
+#make sure he's alive
+echo "Alive?"
+./alive

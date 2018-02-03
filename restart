@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#kill process with previous wednesday-bot
+./stop
+echo "
+...
+"
+sleep 1
+
+#pull latest from git
+echo "pulling latest from git:"
+git pull
+echo "
+...
+"
+sleep 1
+
+#start updated wednesday-bot
+echo "awaken, wednesday-bot"
+./run
+
