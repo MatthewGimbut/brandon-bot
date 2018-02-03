@@ -76,10 +76,6 @@ async def day(ctx):
 @bot.event
 async def on_message(message):
     if not message.author.id == bot.user.id:  # don't reply to your own messages
-        if message.channel.is_private:
-            if not persistence.is_dude(message.author.id):
-                await bot.send_message(message.channel, 'Hey there. Slidin in the DMs are we?')
-                await bot.send_message(message.channel, ':wink:')
         if bot.user.mentioned_in(message) and message.mention_everyone is False:
             if util.thanked(message.content.lower()):
                 await bot.send_message(message.channel, 'You\'re welcome, my dude')
