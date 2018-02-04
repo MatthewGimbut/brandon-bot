@@ -21,6 +21,7 @@ listen_mappings = {
     'stop': ['', '', False],
     'lmao': ['', '😂', False],
     'cool': ['', '😎', False],
+    'pokimane': ['😍 Pokimane 😍', '❤', False],
 }
 
 mention_mappings = {

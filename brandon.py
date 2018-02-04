@@ -59,7 +59,6 @@ async def on_ready():
 
 
 """
-
 @bot.command(pass_context=True)
 async def day(ctx):
 
@@ -70,15 +69,15 @@ async def day(ctx):
     today = datetime.today().weekday()
     await bot.say(util.my_dudes(today))
     await bot.send_file(channel, util.image(today))
-    
 """
+
 
 @bot.event
 async def on_message(message):
     if not message.author.id == bot.user.id:  # don't reply to your own messages
         if bot.user.mentioned_in(message) and message.mention_everyone is False:
             if util.thanked(message.content.lower()):
-                await bot.send_message(message.channel, 'You\'re welcome, my dude')
+                await bot.send_message(message.channel, 'You\'re welcome')
                 await bot.add_reaction(message, '❤')  # :heart:
                 return
             await respond_to(message, cm.mentioned_in(message.content.lower()), True)
@@ -100,4 +99,4 @@ async def on_command_error(error, ctx):
 
 if __name__ == "__main__":
     # This MUST be the final function call that runs
-    bot.run(credentials.get_creds('aSpGEr1xSu7juwkZX5THPs362pahTl9d'))
+    bot.run('token')
